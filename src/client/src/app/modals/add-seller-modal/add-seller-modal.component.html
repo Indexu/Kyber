@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h5 class="modal-title">Add seller</h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Name" [(ngModel)]="name" />
+    <input type="text" class="form-control" placeholder="Category" [(ngModel)]="category" />
+    <input type="text" class="form-control" placeholder="Image Path" [(ngModel)]="imagePath" />
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="onAdd()">Add</button>
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">Close</button>
+</div>

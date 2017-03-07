@@ -1,0 +1,68 @@
+<div class="container mt-2">
+  <!-- Header -->
+  <div class="row">
+    <!-- Seller info -->
+    <div class="col-sm-12 col-lg-9">
+      <div class="row">
+        <!-- Image -->
+        <div class="col-sm-12 col-lg-6">
+          <img class="mx-auto d-block" src="{{ seller.imagePath }}" alt="seller image" />
+        </div>
+        <!-- Name and category -->
+        <div class="col-sm-12 col-lg-6">
+          <h3>{{ seller.name }}</h3>
+          <h4>{{ seller.category }}</h4>
+        </div>
+      </div>
+    </div>
+    <!-- Add product button -->
+    <div class="col-sm-12 col-lg-3">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <button type="button" class="btn btn-primary w-100" (click)="onAdd()">Add product</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- List -->
+  <div class="row mt-2">
+    <div class="col">
+      <ngb-tabset #t="ngbTabset">
+        <ngb-tab title="All products" id="allproducts">
+          <template ngbTabContent>
+            <div class="row">
+              <div class="col-sm-12 col-md-4 col-lg-3 mt-2" *ngFor="let product of products">
+                <div class="card">
+                  <img *ngIf="product.imagePath" class="card-img-top" src="{{ product.imagePath }}" alt="Product image">
+                  <div class="card-block">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <h6 class="card-text">{{ product.name }}</h6>
+                      </div>
+                      <div class="col-sm-5">
+                        <h6 class="card-text text-right">{{ product.price }} kr.</h6>
+                      </div>
+                    </div>
+                    <a href="#" class="btn btn-primary mt-2 w-100">Edit</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </ngb-tab>
+        <ngb-tab id="topten">
+          <template ngbTabTitle>Top 10</template>
+          <template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+              craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
+              vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica
+              VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
+              sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
+              tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+          </template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+<template ngbModalContainer></template>
