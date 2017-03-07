@@ -1,3 +1,14 @@
-<h1>
-  {{title}}
-</h1>
+<!-- Header -->
+<header>
+  <nav class="navbar navbar-inverse bg-primary">
+    <h1 class="navbar-brand mb-0 text-center"><span (click)="onHome()">{{title}}</span></h1>
+  </nav>
+</header>
+<!-- Main -->
+<main>
+  <router-outlet></router-outlet>
+</main>
+<!-- Footer -->
+<footer>
+
+</footer>
