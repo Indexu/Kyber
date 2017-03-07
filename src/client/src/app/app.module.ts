@@ -9,7 +9,8 @@ import { ToastModule } from "ng2-toastr";
 import { AppComponent } from "./app.component";
 import { SellersComponent } from "./sellers/sellers.component";
 import { DetailsComponent } from "./details/details.component";
-import { AddSellerModalComponent } from "./modals/add-seller-modal/add-seller-modal.component";
+import { SellerModalComponent } from "./modals/seller-modal/seller-modal.component";
+import { ProductModalComponent } from './modals/product-modal/product-modal.component';
 
 import { StoreService } from "./store.service";
 
@@ -17,8 +18,9 @@ import { StoreService } from "./store.service";
     declarations: [
         AppComponent,
         SellersComponent,
-        AddSellerModalComponent,
-        DetailsComponent
+        SellerModalComponent,
+        DetailsComponent,
+        ProductModalComponent
     ],
     imports: [
         BrowserModule,
@@ -43,7 +45,8 @@ import { StoreService } from "./store.service";
         ])
     ],
     entryComponents: [
-        AddSellerModalComponent,
+        SellerModalComponent,
+        ProductModalComponent
     ],
     providers: [StoreService],
     bootstrap: [AppComponent]

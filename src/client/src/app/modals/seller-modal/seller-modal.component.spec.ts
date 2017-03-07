@@ -5,7 +5,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { StoreService } from "./../../store.service";
 
-import { AddSellerModalComponent } from "./add-seller-modal.component";
+import { SellerModalComponent } from "./seller-modal.component";
 
 // ========= MOCK CLASSES =========
 
@@ -25,14 +25,14 @@ const mockActiveModal = {
     close: jasmine.createSpy("close")
 };
 
-describe("AddSellerModalComponent", () => {
-    let component: AddSellerModalComponent;
-    let fixture: ComponentFixture<AddSellerModalComponent>;
+describe("SellerModalComponent", () => {
+    let component: SellerModalComponent;
+    let fixture: ComponentFixture<SellerModalComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule],
-            declarations: [AddSellerModalComponent],
+            declarations: [SellerModalComponent],
             providers: [
                 {
                     provide: StoreService,
@@ -48,7 +48,7 @@ describe("AddSellerModalComponent", () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AddSellerModalComponent);
+        fixture = TestBed.createComponent(SellerModalComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

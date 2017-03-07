@@ -43,7 +43,7 @@
                         <h6 class="card-text text-right">{{ product.price }} kr.</h6>
                       </div>
                     </div>
-                    <a href="#" class="btn btn-primary mt-2 w-100">Edit</a>
+                    <button type="button" class="btn btn-primary mt-2 w-100" (click)="onEdit(product.id)">Edit</button>
                   </div>
                 </div>
               </div>
@@ -52,13 +52,25 @@
         </ngb-tab>
         <ngb-tab id="topten">
           <template ngbTabTitle>Top 10</template>
-          <template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
-            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-              craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad
-              vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica
-              VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit,
-              sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown,
-              tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+          <template ngbTabContent>
+            <div class="row">
+              <div class="col-sm-12 col-md-4 col-lg-3 mt-2" *ngFor="let product of topProducts">
+                <div class="card">
+                  <img *ngIf="product.imagePath" class="card-img-top" src="{{ product.imagePath }}" alt="Product image">
+                  <div class="card-block">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <h6 class="card-text">{{ product.name }}</h6>
+                      </div>
+                      <div class="col-sm-5">
+                        <h6 class="card-text text-right">{{ product.price }} kr.</h6>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-primary mt-2 w-100" (click)="onEdit(product.id)">Edit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </template>
         </ngb-tab>
       </ngb-tabset>

@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastsManager } from "ng2-toastr";
 
-import { AddSellerModalComponent } from "./../modals/add-seller-modal/add-seller-modal.component";
+import { SellerModalComponent } from "./../modals/seller-modal/seller-modal.component";
 
 import { StoreService } from "./../store.service";
 
@@ -41,8 +41,10 @@ export class SellersComponent implements OnInit {
     }
 
     onAdd() {
-        const modalRef = this.modalService.open(AddSellerModalComponent);
+        const modalRef = this.modalService.open(SellerModalComponent);
         modalRef.componentInstance.toastr = this.toastr;
+        modalRef.componentInstance.editing = false;
+
         modalRef.componentInstance.success.subscribe(added => {
             if (added) {
                 this.toastr.success(
@@ -56,7 +58,31 @@ export class SellersComponent implements OnInit {
         });
     }
 
-    onEdit() {
-        console.log("CLICK");
+    onEdit(id: number) {
+        this.storeService.getSeller(id).subscribe(seller => {
+            if (seller) {
+                const modalRef = this.modalService.open(SellerModalComponent);
+                modalRef.componentInstance.toastr = this.toastr;
+                modalRef.componentInstance.editing = true;
+
+                modalRef.componentInstance.id = seller.id;
+                modalRef.componentInstance.name = seller.name;
+                modalRef.componentInstance.category = seller.category;
+                modalRef.componentInstance.imagePath = seller.imagePath;
+
+                modalRef.componentInstance.success.subscribe(added => {
+                    if (added) {
+                        this.toastr.success(
+                            "Seller was edited",
+                            "Edited!");
+
+                        this.storeService.getSellers().subscribe(sellers => {
+                            this.sellers = sellers;
+                        });
+                    }
+                });
+            }
+
+        });
     }
 }

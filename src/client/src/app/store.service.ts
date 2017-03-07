@@ -39,4 +39,45 @@ export class StoreService {
                 return response.status === 201;
             });
     }
+
+    editSeller(seller: Seller): Observable<boolean> {
+        return this.http.put("http://localhost:5000/api/sellers/" + seller.id, seller)
+            .map(response => {
+                return response.status === 201;
+            });
+    }
+
+    addProduct(sellerID: number, product: Product): Observable<boolean> {
+        const data = {
+            id: sellerID,
+            prodId: product.id,
+            name: product.name,
+            price: product.price,
+            quantitySold: product.quantitySold,
+            quantityInStock: product.quantityInStock,
+            path: product.imagePath
+        };
+
+        return this.http.post("http://localhost:5000/api/sellers/" + sellerID + "/products", data)
+            .map(response => {
+                return response.status === 200;
+            });
+    }
+
+    editProduct(sellerID: number, product: Product): Observable<boolean> {
+        const data = {
+            id: sellerID,
+            prodId: product.id,
+            name: product.name,
+            price: product.price,
+            quantitySold: product.quantitySold,
+            quantityInStock: product.quantityInStock,
+            imagePath: product.imagePath
+        };
+
+        return this.http.put("http://localhost:5000/api/sellers/" + sellerID + "/products/" + product.id, data)
+            .map(response => {
+                return response.status === 200;
+            });
+    }
 }
