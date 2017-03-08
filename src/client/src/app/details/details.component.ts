@@ -32,7 +32,7 @@ export class DetailsComponent implements OnInit {
         private storeService: StoreService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
-        public toastr: ToastsManager,
+        private toastr: ToastsManager,
         vcr: ViewContainerRef
     ) {
         this.toastr.setRootViewContainerRef(vcr);

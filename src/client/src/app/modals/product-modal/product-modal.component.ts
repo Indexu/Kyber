@@ -27,7 +27,7 @@ export class ProductModalComponent implements OnInit {
     title: string;
 
     constructor(
-        private activeModal: NgbActiveModal,
+        public activeModal: NgbActiveModal,
         private storeService: StoreService
     ) { }
 

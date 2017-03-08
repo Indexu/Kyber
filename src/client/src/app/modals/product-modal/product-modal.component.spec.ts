@@ -1,25 +1,59 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormsModule } from "@angular/forms";
+import { Observable } from "rxjs/Observable";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { ProductModalComponent } from './product-modal.component';
+import { StoreService } from "./../../store.service";
 
-describe('ProductModalComponent', () => {
-  let component: ProductModalComponent;
-  let fixture: ComponentFixture<ProductModalComponent>;
+import { ProductModalComponent } from "./product-modal.component";
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ProductModalComponent ]
-    })
-    .compileComponents();
-  }));
+// ========= MOCK CLASSES =========
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+// Store Service
+class StoreServiceMock {
+    success = true;
+    addSeller(): Observable<boolean> {
+        return Observable.of(this.success);
+    }
+}
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+// ======= MOCKS / SPIES ========
+
+const mockService = new StoreServiceMock();
+
+const mockActiveModal = {
+    close: jasmine.createSpy("close")
+};
+
+describe("ProductModalComponent", () => {
+    let component: ProductModalComponent;
+    let fixture: ComponentFixture<ProductModalComponent>;
+
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [FormsModule],
+            declarations: [ProductModalComponent],
+            providers: [
+                {
+                    provide: StoreService,
+                    useValue: mockService
+                },
+                {
+                    provide: NgbActiveModal,
+                    useValue: mockActiveModal
+                }
+            ]
+        })
+            .compileComponents();
+    }));
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ProductModalComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

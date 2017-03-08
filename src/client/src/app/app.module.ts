@@ -10,7 +10,7 @@ import { AppComponent } from "./app.component";
 import { SellersComponent } from "./sellers/sellers.component";
 import { DetailsComponent } from "./details/details.component";
 import { SellerModalComponent } from "./modals/seller-modal/seller-modal.component";
-import { ProductModalComponent } from './modals/product-modal/product-modal.component';
+import { ProductModalComponent } from "./modals/product-modal/product-modal.component";
 
 import { StoreService } from "./store.service";
 

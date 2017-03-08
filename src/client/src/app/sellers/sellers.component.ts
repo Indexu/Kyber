@@ -22,7 +22,7 @@ export class SellersComponent implements OnInit {
         private storeService: StoreService,
         private router: Router,
         private modalService: NgbModal,
-        public toastr: ToastsManager,
+        private toastr: ToastsManager,
         vcr: ViewContainerRef
     ) {
         this.toastr.setRootViewContainerRef(vcr);

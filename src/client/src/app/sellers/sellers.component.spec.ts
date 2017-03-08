@@ -126,9 +126,12 @@ describe("SellersComponent", () => {
     it("onRow should go to correct seller", () => {
         // Arrange
         const id = 5;
+        const event = {
+            target: "TD"
+        };
 
         // Act
-        component.onRow(id);
+        component.onRow(id, event);
 
         // Assert
         expect(mockRouter.navigate).toHaveBeenCalled();
