@@ -29,9 +29,7 @@ export class SellersComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.storeService.getSellers().subscribe(sellers => {
-            this.sellers = sellers;
-        });
+        this.getSellers();
     }
 
     onRow(id: number, event: any) {
@@ -46,43 +44,56 @@ export class SellersComponent implements OnInit {
         modalRef.componentInstance.editing = false;
 
         modalRef.componentInstance.success.subscribe(added => {
-            if (added) {
-                this.toastr.success(
-                    "Seller was added",
-                    "Added!");
+            this.toastr.success(
+                "Seller was added",
+                "Added!");
 
-                this.storeService.getSellers().subscribe(sellers => {
-                    this.sellers = sellers;
-                });
-            }
+            this.getSellers();
         });
     }
 
     onEdit(id: number) {
         this.storeService.getSeller(id).subscribe(seller => {
-            if (seller) {
-                const modalRef = this.modalService.open(SellerModalComponent);
-                modalRef.componentInstance.toastr = this.toastr;
-                modalRef.componentInstance.editing = true;
+            const modalRef = this.modalService.open(SellerModalComponent);
+            modalRef.componentInstance.toastr = this.toastr;
+            modalRef.componentInstance.editing = true;
 
-                modalRef.componentInstance.id = seller.id;
-                modalRef.componentInstance.name = seller.name;
-                modalRef.componentInstance.category = seller.category;
-                modalRef.componentInstance.imagePath = seller.imagePath;
+            modalRef.componentInstance.id = seller.id;
+            modalRef.componentInstance.name = seller.name;
+            modalRef.componentInstance.category = seller.category;
+            modalRef.componentInstance.imagePath = seller.imagePath;
 
-                modalRef.componentInstance.success.subscribe(added => {
-                    if (added) {
-                        this.toastr.success(
-                            "Seller was edited",
-                            "Edited!");
+            modalRef.componentInstance.success.subscribe(added => {
+                this.toastr.success(
+                    "Seller was edited",
+                    "Edited!");
 
-                        this.storeService.getSellers().subscribe(sellers => {
-                            this.sellers = sellers;
-                        });
-                    }
-                });
+                this.getSellers();
+            });
+        }, error => {
+            if (error.status === 404) {
+                this.toastr.error(
+                    "404 Not Found",
+                    "Seller not found");
+            } else {
+                this.toastr.error(
+                    "See console for details",
+                    "Fatal error");
+
+                console.log(error);
             }
+        });
+    }
 
+    private getSellers() {
+        this.storeService.getSellers().subscribe(sellers => {
+            this.sellers = sellers;
+        }, error => {
+            this.toastr.error(
+                "See console for details",
+                "Fatal error");
+
+            console.log(error);
         });
     }
 }

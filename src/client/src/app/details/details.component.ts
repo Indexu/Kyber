@@ -17,6 +17,7 @@ import { Product } from "./../../interfaces/product";
 })
 export class DetailsComponent implements OnInit {
     id: number;
+    notFound = false;
 
     seller: Seller = {
         id: 0,
@@ -42,12 +43,21 @@ export class DetailsComponent implements OnInit {
         this.id = this.route.snapshot.params["id"];
 
         this.storeService.getSeller(this.id).subscribe(seller => {
-            this.seller = seller;
-        });
+            if (seller !== undefined) {
+                this.seller = seller;
 
-        this.storeService.getProducts(this.id).subscribe(products => {
-            this.products = products;
-            this.populateTopTen();
+                this.getProducts();
+            }
+        }, error => {
+            if (error.status === 404) {
+                this.notFound = true;
+            } else {
+                this.toastr.error(
+                    "See console for details",
+                    "Fatal error");
+
+                console.log(error);
+            }
         });
     }
 
@@ -59,16 +69,11 @@ export class DetailsComponent implements OnInit {
         modalRef.componentInstance.sellerID = this.id;
 
         modalRef.componentInstance.success.subscribe(added => {
-            if (added) {
-                this.toastr.success(
-                    "Product was added",
-                    "Added!");
+            this.toastr.success(
+                "Product was added",
+                "Added!");
 
-                this.storeService.getProducts(this.id).subscribe(products => {
-                    this.products = products;
-                    this.populateTopTen();
-                });
-            }
+            this.getProducts();
         });
     }
 
@@ -95,18 +100,26 @@ export class DetailsComponent implements OnInit {
             modalRef.componentInstance.imagePath = product.imagePath;
 
             modalRef.componentInstance.success.subscribe(added => {
-                if (added) {
-                    this.toastr.success(
-                        "Product was edited",
-                        "Edited!");
+                this.toastr.success(
+                    "Product was edited",
+                    "Edited!");
 
-                    this.storeService.getProducts(this.id).subscribe(products => {
-                        this.products = products;
-                        this.populateTopTen();
-                    });
-                }
+                this.getProducts();
             });
         }
+    }
+
+    private getProducts() {
+        this.storeService.getProducts(this.id).subscribe(products => {
+            this.products = products;
+            this.populateTopTen();
+        }, error => {
+            this.toastr.error(
+                "See console for details",
+                "Fatal error");
+
+            console.log(error);
+        });
     }
 
     private populateTopTen() {
