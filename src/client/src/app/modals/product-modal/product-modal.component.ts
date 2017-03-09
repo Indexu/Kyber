@@ -66,26 +66,39 @@ export class ProductModalComponent implements OnInit {
 
     private add(product: Product) {
         this.storeService.addProduct(this.sellerID, product).subscribe(success => {
-            // Success
-            this.success.emit(true);
-            this.activeModal.close();
+            if (success) {
+                this.success.emit(true);
+                this.activeModal.close();
+            } else {
+                this.toastr.error(
+                    "Could not add product",
+                    "Add error");
+            }
         }, error => {
-            // Error
-            console.log("Fucked");
+            this.toastr.error(
+                "See console for details",
+                "Fatal error");
+
             console.log(error);
         });
     }
 
     private edit(product: Product) {
         this.storeService.editProduct(this.sellerID, product).subscribe(success => {
-            // Success
-            this.success.emit(true);
-            this.activeModal.close();
+            if (success) {
+                this.success.emit(true);
+                this.activeModal.close();
+            } else {
+                this.toastr.error(
+                    "Could not edit product",
+                    "Edit error");
+            }
         }, error => {
-            // Error
-            console.log("Fucked");
+            this.toastr.error(
+                "See console for details",
+                "Fatal error");
+
             console.log(error);
         });
     }
-
 }
