@@ -29,36 +29,65 @@ const productList: Product[] = [
         price: 12000,
         quantitySold: 1,
         quantityInStock: 0,
-        imagePath: "imagepath"
+        imagePath: ""
+    },
+    {
+        id: 3,
+        name: "Crappy Headphones",
+        price: 50000,
+        quantitySold: 3,
+        quantityInStock: 0,
+        imagePath: ""
     },
     {
         id: 2,
         name: "Overpriced TV",
         price: 1200000,
-        quantitySold: 1,
+        quantitySold: 2,
         quantityInStock: 0,
-        imagePath: "imagepath"
+        imagePath: ""
     },
     {
         id: 3,
-        name: "Headphones",
+        name: "Less Crappy Headphones",
         price: 50000,
-        quantitySold: 1,
+        quantitySold: 3,
         quantityInStock: 0,
-        imagePath: "imagepath"
+        imagePath: ""
     }
 ];
 
 // ========= MOCK CLASSES =========
 
+// Observable
+class ObservableMock {
+    constructor(
+        private observableSuccess: boolean,
+        private observableData: any
+    ) { }
+
+    subscribe(fnSuccess, fnError) {
+        if (this.observableSuccess) {
+            fnSuccess(this.observableData);
+        } else {
+            fnError(this.observableData);
+        }
+    }
+}
+
 // Store Service
 class StoreServiceMock {
-    getSeller(): Observable<Seller> {
-        return Observable.of(seller);
+    observableSellerSuccess = true;
+    observableProductSuccess = true;
+    observableDataSeller: any;
+    observableDataProduct: any;
+
+    getSeller(id: number): ObservableMock {
+        return new ObservableMock(this.observableSellerSuccess, this.observableDataSeller);
     }
 
-    getProducts(): Observable<Product[]> {
-        return Observable.of(productList);
+    getProducts(id: number): ObservableMock {
+        return new ObservableMock(this.observableProductSuccess, this.observableDataProduct);
     }
 }
 
@@ -95,6 +124,7 @@ const mockRoute = {
 // Mock Toastr
 const mockToastr = {
     success: jasmine.createSpy("success"),
+    error: jasmine.createSpy("error"),
     setRootViewContainerRef: jasmine.createSpy("setRootViewContainerRef")
 };
 
@@ -136,9 +166,116 @@ describe("DetailsComponent", () => {
         fixture = TestBed.createComponent(DetailsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
+        mockToastr.success.calls.reset();
+        mockToastr.error.calls.reset();
+        mockService.observableSellerSuccess = true;
+        mockService.observableProductSuccess = true;
+        mockService.observableDataSeller = seller;
+        mockService.observableDataProduct = productList;
     });
 
     it("should create", () => {
         expect(component).toBeTruthy();
+        expect(mockToastr.setRootViewContainerRef).toHaveBeenCalled();
+    });
+
+    describe("ngOnInit", () => {
+        it("should have correct data after loading", () => {
+            // Arrange
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(component.seller).toEqual(seller);
+            expect(component.products).toEqual(productList);
+        });
+
+        it("should 404 loading seller", () => {
+            // Arrange
+            mockService.observableSellerSuccess = false;
+            mockService.observableDataSeller = {
+                status: 404
+            };
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(mockToastr.error).toHaveBeenCalledTimes(0);
+        });
+
+        it("should fatal fail loading seller", () => {
+            // Arrange
+            mockService.observableSellerSuccess = false;
+            mockService.observableDataSeller = {
+                status: 500
+            };
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(mockToastr.error).toHaveBeenCalled();
+            expect(mockToastr.error).toHaveBeenCalledWith("See console for details", "Fatal error");
+        });
+
+        it("should fatal fail loading product list", () => {
+            // Arrange
+            mockService.observableProductSuccess = false;
+            mockService.observableDataProduct = {
+                status: 500
+            };
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(mockToastr.error).toHaveBeenCalled();
+            expect(mockToastr.error).toHaveBeenCalledWith("See console for details", "Fatal error");
+        });
+    });
+
+    describe("onAdd", () => {
+        it("should display toastr on success", () => {
+            // Arrange
+
+            // Act
+            component.onAdd();
+
+            // Assert
+            expect(mockToastr.success).toHaveBeenCalled();
+            expect(mockToastr.success).toHaveBeenCalledWith("Product was added", "Added!");
+
+            // No need to verify getProducts in this scope, since ngOnInit tests it
+        });
+    });
+
+    describe("onEdit", () => {
+        it("should display toastr on success", () => {
+            // Arrange
+            const id = 1;
+
+            // Act
+            component.onEdit(id);
+
+            // Assert
+            expect(mockToastr.success).toHaveBeenCalled();
+            expect(mockToastr.success).toHaveBeenCalledWith("Product was edited", "Edited!");
+
+            // No need to verify getProducts in this scope, since ngOnInit tests it
+        });
+
+        it("should not do anything if invalid id", () => {
+            // Arrange
+            const id = 1337;
+
+            // Act
+            component.onEdit(id);
+
+            // Assert
+            expect(mockToastr.success).toHaveBeenCalledTimes(0);
+        });
     });
 });

@@ -43,7 +43,7 @@ export class StoreService {
     editSeller(seller: Seller): Observable<boolean> {
         return this.http.put("http://localhost:5000/api/sellers/" + seller.id, seller)
             .map(response => {
-                return response.status === 201;
+                return response.status === 200;
             });
     }
 
@@ -60,7 +60,7 @@ export class StoreService {
 
         return this.http.post("http://localhost:5000/api/sellers/" + sellerID + "/products", data)
             .map(response => {
-                return response.status === 200;
+                return response.status === 201;
             });
     }
 

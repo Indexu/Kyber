@@ -73,6 +73,7 @@ export class ProductModalComponent implements OnInit {
                 this.toastr.error(
                     "Could not add product",
                     "Add error");
+                console.log(success);
             }
         }, error => {
             this.toastr.error(
@@ -92,6 +93,7 @@ export class ProductModalComponent implements OnInit {
                 this.toastr.error(
                     "Could not edit product",
                     "Edit error");
+                console.log(success);
             }
         }, error => {
             this.toastr.error(
