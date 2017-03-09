@@ -42,4 +42,17 @@ describe("AppComponent", () => {
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector("h1").textContent).toContain("Kyber");
     }));
+
+    it("onHome should redirect to correct url", async(() => {
+        // Arrange
+        const fixture = TestBed.createComponent(AppComponent);
+        const app = fixture.debugElement.componentInstance;
+
+        // Act
+        app.onHome();
+
+        // Assert
+        expect(mockRouter.navigate).toHaveBeenCalled();
+        expect(mockRouter.navigate).toHaveBeenCalledWith([""]);
+    }));
 });

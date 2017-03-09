@@ -17,19 +17,19 @@ const sellerList: Seller[] = [
         id: 1,
         name: "Elko",
         category: "Deception",
-        imagePath: "wormtounge.jpg"
+        imagePath: ""
     },
     {
         id: 2,
         name: "Advania",
         category: "Great software solutions",
-        imagePath: "bruteforced.jpg"
+        imagePath: ""
     },
     {
         id: 3,
         name: "Logan",
         category: "Adamantium",
-        imagePath: "dedpul.jpg"
+        imagePath: ""
     }
 ];
 
