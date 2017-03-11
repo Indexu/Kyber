@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { By } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -234,6 +235,21 @@ describe("DetailsComponent", () => {
             // Assert
             expect(mockToastr.error).toHaveBeenCalled();
             expect(mockToastr.error).toHaveBeenCalledWith("See console for details", "Fatal error");
+        });
+
+        it("should display an alert if the seller has no procuts", () => {
+            // Arrange
+            mockService.observableDataProduct = [];
+
+            // Act
+            component.ngOnInit();
+
+            // Assert
+            expect(component.products).toEqual([]);
+
+            var elem = fixture.debugElement.queryAll(By.css("p"))[0];
+
+            expect(elem).toBeDefined();
         });
     });
 

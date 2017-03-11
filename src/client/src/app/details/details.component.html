@@ -26,7 +26,7 @@
   </div>
   <!-- List -->
   <div class="row mt-2">
-    <div class="col">
+    <div *ngIf="products?.length > 0" class="col">
       <ngb-tabset #t="ngbTabset">
         <ngb-tab title="All products" id="allproducts">
           <template ngbTabContent>
@@ -74,6 +74,13 @@
           </template>
         </ngb-tab>
       </ngb-tabset>
+    </div>
+    <div *ngIf="products?.length == 0" class="col">
+      <p>
+        <ngb-alert [dismissible]="false">
+          This seller has no products yet!
+        </ngb-alert>
+      </p>
     </div>
   </div>
 </div>
