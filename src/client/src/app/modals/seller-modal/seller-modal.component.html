@@ -8,9 +8,19 @@
 </div>
 <div class="modal-body">
   <div class="form-group">
-    <input type="text" class="form-control" placeholder="Name" [(ngModel)]="name" />
-    <input type="text" class="form-control mt-2" placeholder="Category" [(ngModel)]="category" />
-    <input type="text" class="form-control mt-2" placeholder="Image Path" [(ngModel)]="imagePath" />
+    <label for="sellerName">Name</label>
+    <input type="text" class="form-control" placeholder="Name" id="sellerName" [(ngModel)]="name" />
+
+  </div>
+
+  <div class="form-group">
+    <label for="sellerCategory">Category</label>
+    <input type="text" class="form-control mt-2" placeholder="Category" id="sellerCategory" [(ngModel)]="category" />
+  </div>
+
+  <div class="form-group">
+    <label for="sellerImage">Image Path</label>
+    <input type="text" class="form-control mt-2" placeholder="Image Path" id="sellerImage" [(ngModel)]="imagePath" />
   </div>
 </div>
 <div class="modal-footer">

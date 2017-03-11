@@ -5,3 +5,20 @@ h1 {
 h1>span {
   cursor: pointer;
 }
+
+footer>span {
+  font-size: 1em;
+}
+
+
+/* Sticky footer */
+
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
