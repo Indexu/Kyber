@@ -116,7 +116,7 @@ describe("ProductModalComponent", () => {
     });
 
     describe("onSubmit", () => {
-        it("should fail and call toastr", () => {
+        it("should have invalid name and call toastr", () => {
             // Arrange
             component.name = "";
             component.toastr = mockToastr;
@@ -127,6 +127,64 @@ describe("ProductModalComponent", () => {
             // Assert
             expect(mockToastr.error).toHaveBeenCalled();
             expect(mockToastr.error).toHaveBeenCalledWith("Name can't be empty", "Name error");
+        });
+
+        it("should have null price and call toastr", () => {
+            // Arrange
+            component.name = "x";
+            component.price = null;
+            component.toastr = mockToastr;
+
+            // Act
+            component.onSubmit();
+
+            // Assert
+            expect(mockToastr.error).toHaveBeenCalled();
+            expect(mockToastr.error).toHaveBeenCalledWith("Price missing", "Price error");
+        });
+
+        it("should have negative price and call toastr", () => {
+            // Arrange
+            component.name = "x";
+            component.price = -5;
+            component.toastr = mockToastr;
+
+            // Act
+            component.onSubmit();
+
+            // Assert
+            expect(mockToastr.error).toHaveBeenCalled();
+            expect(mockToastr.error).toHaveBeenCalledWith("Price can't be negative", "Price error");
+        });
+
+        it("should have null quantity in stock and call toastr", () => {
+            // Arrange
+            component.name = "x";
+            component.price = 5;
+            component.quantityInStock = null;
+            component.toastr = mockToastr;
+
+            // Act
+            component.onSubmit();
+
+            // Assert
+            expect(mockToastr.error).toHaveBeenCalled();
+            expect(mockToastr.error).toHaveBeenCalledWith("Quantity in stock missing", "Quantity error");
+        });
+
+        it("should have negative quantity in stock and call toastr", () => {
+            // Arrange
+            component.name = "x";
+            component.price = 5;
+            component.quantityInStock = -5;
+            component.toastr = mockToastr;
+
+            // Act
+            component.onSubmit();
+
+            // Assert
+            expect(mockToastr.error).toHaveBeenCalled();
+            expect(mockToastr.error).toHaveBeenCalledWith("Quantity in stock can't be negative", "Quantity error");
         });
 
         describe("adding", () => {

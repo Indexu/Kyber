@@ -1,14 +1,19 @@
-<!-- Header -->
-<header>
-  <nav class="navbar navbar-inverse bg-primary">
-    <h1 class="navbar-brand mb-0 text-center"><span (click)="onHome()">{{title}}</span></h1>
-  </nav>
-</header>
-<!-- Main -->
-<main>
-  <router-outlet></router-outlet>
-</main>
-<!-- Footer -->
-<footer>
-
-</footer>
+<div class="wrapper">
+  <!-- Header -->
+  <header>
+    <nav class="navbar navbar-inverse bg-primary">
+      <h1 class="navbar-brand mb-0 text-center"><span (click)="onHome()">{{title}}</span></h1>
+    </nav>
+  </header>
+  <!-- Main -->
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+  <!-- Footer -->
+  <footer class="navbar navbar-inverse bg-primary">
+    <span class="navbar-brand text-center ">
+      Made with <span class="text-danger">&hearts;</span> using
+    <a href="http://v4-alpha.getbootstrap.com/" class="text-info">Bootstrap 4</a>
+    </span>
+  </footer>
+</div>

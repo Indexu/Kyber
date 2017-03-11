@@ -30,6 +30,7 @@ export class SellerModalComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        // Set title according to action
         if (this.editing) {
             this.title = "Edit seller";
         } else {
@@ -38,6 +39,7 @@ export class SellerModalComponent implements OnInit {
     }
 
     onSubmit() {
+        // Validate name
         this.name = this.name.trim();
         if (this.name === "") {
             this.toastr.error(
@@ -46,6 +48,12 @@ export class SellerModalComponent implements OnInit {
             return;
         }
 
+        /*
+         * Do not need to validate image path and category
+         * since both are optional and can be anything.
+         */
+
+        // Package seller info together
         const seller: Seller = {
             id: this.id,
             name: this.name,
@@ -53,6 +61,7 @@ export class SellerModalComponent implements OnInit {
             imagePath: this.imagePath
         };
 
+        // Call appropriate function based on action
         if (this.editing) {
             this.edit(seller);
         } else {
@@ -63,14 +72,17 @@ export class SellerModalComponent implements OnInit {
     private add(seller: Seller) {
         this.storeService.addSeller(seller).subscribe(success => {
             if (success) {
+                // Added, close modal
                 this.success.emit(true);
                 this.activeModal.close();
             } else {
+                // Some sort of error
                 this.toastr.error(
                     "Could not add seller",
                     "Add error");
             }
         }, error => {
+            // Unknown error (most likely server error)
             this.toastr.error(
                 "See console for details",
                 "Fatal error");
@@ -82,14 +94,17 @@ export class SellerModalComponent implements OnInit {
     private edit(seller: Seller) {
         this.storeService.editSeller(seller).subscribe(success => {
             if (success) {
+                // Edited, close modal
                 this.success.emit(true);
                 this.activeModal.close();
             } else {
+                // Some sort of error
                 this.toastr.error(
                     "Could not edit seller",
                     "Edit error");
             }
         }, error => {
+            // Unknown error (most likely server error)
             this.toastr.error(
                 "See console for details",
                 "Fatal error");

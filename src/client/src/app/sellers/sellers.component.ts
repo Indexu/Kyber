@@ -33,6 +33,7 @@ export class SellersComponent implements OnInit {
     }
 
     onRow(id: number, event: any) {
+        // Do not go to details page if the Edit button was pushed
         if (event.target.tagName !== "BUTTON") {
             this.router.navigate(["sellers", id]);
         }
@@ -40,24 +41,25 @@ export class SellersComponent implements OnInit {
 
     onAdd() {
         const modalRef = this.modalService.open(SellerModalComponent);
-        modalRef.componentInstance.toastr = this.toastr;
-        modalRef.componentInstance.editing = false;
+        modalRef.componentInstance.toastr = this.toastr; // Pass toastr
+        modalRef.componentInstance.editing = false; // Set editing to false
 
         modalRef.componentInstance.success.subscribe(added => {
             this.toastr.success(
                 "Seller was added",
                 "Added!");
 
-            this.getSellers();
+            this.getSellers(); // Refresh sellers list
         });
     }
 
     onEdit(id: number) {
         this.storeService.getSeller(id).subscribe(seller => {
             const modalRef = this.modalService.open(SellerModalComponent);
-            modalRef.componentInstance.toastr = this.toastr;
-            modalRef.componentInstance.editing = true;
+            modalRef.componentInstance.toastr = this.toastr; // Pass toastr
+            modalRef.componentInstance.editing = true; // Set editing to true
 
+            // Pass seller info
             modalRef.componentInstance.id = seller.id;
             modalRef.componentInstance.name = seller.name;
             modalRef.componentInstance.category = seller.category;
@@ -68,14 +70,16 @@ export class SellersComponent implements OnInit {
                     "Seller was edited",
                     "Edited!");
 
-                this.getSellers();
+                this.getSellers(); // Refresh sellers list
             });
         }, error => {
+            // 404 error
             if (error.status === 404) {
                 this.toastr.error(
                     "404 Not Found",
                     "Seller not found");
             } else {
+                // Unknown error (most likely server error)
                 this.toastr.error(
                     "See console for details",
                     "Fatal error");
@@ -89,6 +93,7 @@ export class SellersComponent implements OnInit {
         this.storeService.getSellers().subscribe(sellers => {
             this.sellers = sellers;
         }, error => {
+            // Unknown error (most likely server error)
             this.toastr.error(
                 "See console for details",
                 "Fatal error");

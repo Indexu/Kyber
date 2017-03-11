@@ -20,8 +20,8 @@ export class ProductModalComponent implements OnInit {
     @Input() sellerID: number;
     @Input() id: number;
     @Input() name = "";
-    @Input() price: number;
-    @Input() quantityInStock: number;
+    @Input() price = 0;
+    @Input() quantityInStock = 0;
     @Input() imagePath: string;
 
     title: string;
@@ -32,6 +32,7 @@ export class ProductModalComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        // Set title according to action
         if (this.editing) {
             this.title = "Edit product";
         } else {
@@ -40,6 +41,7 @@ export class ProductModalComponent implements OnInit {
     }
 
     onSubmit() {
+        // Validate name
         this.name = this.name.trim();
         if (this.name === "") {
             this.toastr.error(
@@ -48,6 +50,37 @@ export class ProductModalComponent implements OnInit {
             return;
         }
 
+        // Validate price
+        if (this.price === null) {
+            this.toastr.error(
+                "Price missing",
+                "Price error");
+            return;
+        }
+
+        if (this.price < 0) {
+            this.toastr.error(
+                "Price can't be negative",
+                "Price error");
+            return;
+        }
+
+        // Validate quantity in stock
+        if (this.quantityInStock === null) {
+            this.toastr.error(
+                "Quantity in stock missing",
+                "Quantity error");
+            return;
+        }
+
+        if (this.quantityInStock < 0) {
+            this.toastr.error(
+                "Quantity in stock can't be negative",
+                "Quantity error");
+            return;
+        }
+
+        // Package product info
         const product: Product = {
             id: this.id,
             name: this.name,
@@ -57,6 +90,7 @@ export class ProductModalComponent implements OnInit {
             imagePath: this.imagePath
         };
 
+        // Call appropriate function based on action
         if (this.editing) {
             this.edit(product);
         } else {
@@ -67,15 +101,18 @@ export class ProductModalComponent implements OnInit {
     private add(product: Product) {
         this.storeService.addProduct(this.sellerID, product).subscribe(success => {
             if (success) {
+                // Added, close modal
                 this.success.emit(true);
                 this.activeModal.close();
             } else {
+                // Some sort of error
                 this.toastr.error(
                     "Could not add product",
                     "Add error");
                 console.log(success);
             }
         }, error => {
+            // Unknown error (most likely server error)
             this.toastr.error(
                 "See console for details",
                 "Fatal error");
@@ -87,15 +124,18 @@ export class ProductModalComponent implements OnInit {
     private edit(product: Product) {
         this.storeService.editProduct(this.sellerID, product).subscribe(success => {
             if (success) {
+                // Edited, close modal
                 this.success.emit(true);
                 this.activeModal.close();
             } else {
+                // Some sort of error
                 this.toastr.error(
                     "Could not edit product",
                     "Edit error");
                 console.log(success);
             }
         }, error => {
+            // Unknown error (most likely server error)
             this.toastr.error(
                 "See console for details",
                 "Fatal error");

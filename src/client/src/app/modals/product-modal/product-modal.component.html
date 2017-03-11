@@ -8,12 +8,26 @@
 </div>
 <div class="modal-body">
   <div class="form-group">
-    <input type="text" class="form-control" placeholder="Name" [(ngModel)]="name" />
-    <input type="number" class="form-control mt-2" placeholder="Price" [(ngModel)]="price" />
-    <input *ngIf="!editing" type="number" class="form-control mt-2" placeholder="Quantity in stock" [(ngModel)]="quantityInStock"
-    />
-    <input type="text" class="form-control mt-2" placeholder="Image Path" [(ngModel)]="imagePath" />
+    <label for="productName">Name</label>
+    <input type="text" class="form-control" placeholder="Name" id="productName" [(ngModel)]="name" />
   </div>
+
+  <div class="form-group">
+    <label for="productPrice">Price</label>
+    <input type="number" class="form-control" placeholder="Price" id="productPrice" [(ngModel)]="price" />
+  </div>
+
+  <div class="form-group">
+    <label *ngIf="!editing" for="productQuantity">Quantity in stock</label>
+    <input *ngIf="!editing" type="number" class="form-control" placeholder="Quantity in stock" id="productQuantity" [(ngModel)]="quantityInStock"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="productImage">Image Path</label>
+    <input type="text" class="form-control" placeholder="Image Path" id="productImage" [(ngModel)]="imagePath" />
+  </div>
+
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
