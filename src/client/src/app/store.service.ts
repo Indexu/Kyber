@@ -2,7 +2,7 @@ import { Http } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
-import "rxjs/rx";
+import "rxjs/Rx";
 
 import { Seller } from "./../interfaces/seller";
 import { Product } from "./../interfaces/product";

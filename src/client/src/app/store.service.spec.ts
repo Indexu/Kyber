@@ -7,7 +7,7 @@ import { StoreService } from "./store.service";
 
 import { Seller } from "./../interfaces/seller";
 
-import "rxjs/rx";
+import "rxjs/Rx";
 
 const sellerList: Seller[] = [
     {
