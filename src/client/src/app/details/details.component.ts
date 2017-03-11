@@ -41,8 +41,10 @@ export class DetailsComponent implements OnInit {
     }
 
     ngOnInit() {
+        // Get seller id based on URL
         this.id = this.route.snapshot.params["id"];
 
+        // Get seller and products
         this.storeService.getSeller(this.id).subscribe(seller => {
             if (seller !== undefined) {
                 this.seller = seller;
@@ -50,8 +52,10 @@ export class DetailsComponent implements OnInit {
                 this.getProducts();
             }
         }, error => {
+            // Error fetching seller
             this.notFound = true;
             if (error.status !== 404) {
+                // Unknown error (most likely server error)
                 this.toastr.error(
                     "See console for details",
                     "Fatal error");
@@ -63,36 +67,40 @@ export class DetailsComponent implements OnInit {
 
     onAdd() {
         const modalRef = this.modalService.open(ProductModalComponent);
-        modalRef.componentInstance.toastr = this.toastr;
-        modalRef.componentInstance.editing = false;
 
-        modalRef.componentInstance.sellerID = this.id;
+        modalRef.componentInstance.toastr = this.toastr; // Pass toastr
+        modalRef.componentInstance.editing = false; // Set editing to false
+
+        modalRef.componentInstance.sellerID = this.id; // Pass seller ID
 
         modalRef.componentInstance.success.subscribe(added => {
             this.toastr.success(
                 "Product was added",
                 "Added!");
 
-            this.getProducts();
+            this.getProducts(); // Refresh product list
         });
     }
 
     onEdit(id: number) {
         let product: Product = undefined;
-
+        // Search for the product to edit
         for (let i = 0; i < this.products.length; i++) {
             if (this.products[i].id === id) {
                 product = this.products[i];
             }
         }
 
+        // If found, proceed
         if (product !== undefined) {
             const modalRef = this.modalService.open(ProductModalComponent);
-            modalRef.componentInstance.toastr = this.toastr;
-            modalRef.componentInstance.editing = true;
 
-            modalRef.componentInstance.sellerID = this.id;
+            modalRef.componentInstance.toastr = this.toastr; // Pass toastr
+            modalRef.componentInstance.editing = true; // Set editing to true
 
+            modalRef.componentInstance.sellerID = this.id; // Pass seller id
+
+            // Pass product info
             modalRef.componentInstance.id = product.id;
             modalRef.componentInstance.name = product.name;
             modalRef.componentInstance.price = product.price;
@@ -104,8 +112,13 @@ export class DetailsComponent implements OnInit {
                     "Product was edited",
                     "Edited!");
 
-                this.getProducts();
+                this.getProducts(); // Refresh product list
             });
+        } else {
+            // Product not found
+            this.toastr.error(
+                "Product not found",
+                "Error");
         }
     }
 
@@ -114,6 +127,7 @@ export class DetailsComponent implements OnInit {
             this.products = products;
             this.populateTopTen();
         }, error => {
+            // Unknown error (most likely server error)
             this.toastr.error(
                 "See console for details",
                 "Fatal error");
@@ -123,6 +137,8 @@ export class DetailsComponent implements OnInit {
     }
 
     private populateTopTen() {
+        // Sort by quanity sold and get the top 10 products
+
         let sortedProducts = this.products.slice();
         sortedProducts = sortedProducts.sort((p1, p2) => {
             if (p1.quantitySold < p2.quantitySold) {

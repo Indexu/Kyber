@@ -283,7 +283,7 @@ describe("DetailsComponent", () => {
             // No need to verify getProducts in this scope, since ngOnInit tests it
         });
 
-        it("should not do anything if invalid id", () => {
+        it("should call toastr error if invalid id", () => {
             // Arrange
             const id = 1337;
 
@@ -291,7 +291,8 @@ describe("DetailsComponent", () => {
             component.onEdit(id);
 
             // Assert
-            expect(mockToastr.success).toHaveBeenCalledTimes(0);
+            expect(mockToastr.error).toHaveBeenCalled();
+            expect(mockToastr.error).toHaveBeenCalledWith("Product not found", "Error");
         });
     });
 });
