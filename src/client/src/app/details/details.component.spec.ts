@@ -247,7 +247,7 @@ describe("DetailsComponent", () => {
             // Assert
             expect(component.products).toEqual([]);
 
-            var elem = fixture.debugElement.queryAll(By.css("p"))[0];
+            const elem = fixture.debugElement.queryAll(By.css("p"))[0];
 
             expect(elem).toBeDefined();
         });
