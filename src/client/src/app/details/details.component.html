@@ -19,7 +19,8 @@
           <div class="row">
             <!-- Image -->
             <div class="col-sm-12 col-lg-6">
-              <img class="mx-auto d-block rounded" src="{{ seller.imagePath }}" alt="seller image" />
+              <img *ngIf="seller.imagePath" class="mx-auto d-block rounded" src="{{ seller.imagePath }}" alt="seller image" />
+              <img *ngIf="!seller.imagePath" class="mx-auto d-block rounded" src="../../assets/missing-image.png" alt="seller image" />
             </div>
             <!-- Name and category -->
             <div class="col-sm-12 col-lg-6">
