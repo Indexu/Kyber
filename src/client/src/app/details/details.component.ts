@@ -18,6 +18,7 @@ import { Product } from "./../../interfaces/product";
 export class DetailsComponent implements OnInit {
     id: number;
     notFound = false;
+    fatal = false;
 
     seller: Seller = {
         id: 0,
@@ -49,9 +50,8 @@ export class DetailsComponent implements OnInit {
                 this.getProducts();
             }
         }, error => {
-            if (error.status === 404) {
-                this.notFound = true;
-            } else {
+            this.notFound = true;
+            if (error.status !== 404) {
                 this.toastr.error(
                     "See console for details",
                     "Fatal error");

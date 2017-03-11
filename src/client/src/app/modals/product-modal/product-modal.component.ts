@@ -20,8 +20,8 @@ export class ProductModalComponent implements OnInit {
     @Input() sellerID: number;
     @Input() id: number;
     @Input() name = "";
-    @Input() price: number;
-    @Input() quantityInStock: number;
+    @Input() price = 0;
+    @Input() quantityInStock = 0;
     @Input() imagePath: string;
 
     title: string;
@@ -45,6 +45,34 @@ export class ProductModalComponent implements OnInit {
             this.toastr.error(
                 "Name can't be empty",
                 "Name error");
+            return;
+        }
+
+        if (this.price === null) {
+            this.toastr.error(
+                "Price missing",
+                "Price error");
+            return;
+        }
+
+        if (this.price < 0) {
+            this.toastr.error(
+                "Price can't be negative",
+                "Price error");
+            return;
+        }
+
+        if (this.quantityInStock === null) {
+            this.toastr.error(
+                "Quantity in stock missing",
+                "Quantity error");
+            return;
+        }
+
+        if (this.quantityInStock < 0) {
+            this.toastr.error(
+                "Quantity in stock can't be negative",
+                "Quantity error");
             return;
         }
 
